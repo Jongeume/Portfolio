@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.yjh.lecture.dao.L_memberDAO">
+	
+	<!-- 1. 회원정보 DB에 저장 -->
+	<insert id="insert" parameterType="L_memberVO">
+		insert into LEC_MEMBER
+		values
+		(LEC_MEMBER_M_NO_SEQ.nextval, #{ID}, #{PASSWORD}, #{NAME}, #{GENDER}, #{BIRTH}, #{PHONE}, SYSDATE, 0, #{ZIPCODE}, #{ADDR1}, #{ADDR2})	
+	</insert>	
+	
+
+</mapper>
