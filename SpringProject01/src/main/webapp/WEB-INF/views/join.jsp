@@ -10,22 +10,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>회원가입</title>
 	
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/fonts/material-icon/css/material-design-iconic-font.min.css">
+	<%@ include file="script_tags.jsp" %>
 
-    <!-- Main css -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css">
-    <!-- JS -->
-    <script src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
-    
 	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
 <body>
+
+	<%@ include file="banner_context.jsp" %>
+	
 	
     <div class="main">
 
@@ -34,36 +26,67 @@
             <div class="container">
                 <div class="signup-content">
                     <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form">
+                        <h2 class="form-title">회원 가입</h2>
+                        <form method="POST" class="register-form" name="register-form" id="register-form"  action="${pageContext.request.contextPath }/L_member/joinOk" onsubmit="return formCheck()">
+                        
                             <div class="form-group">
                                 <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
+                                <input type="text" name="NAME" id="NAME" placeholder="이름"/>
                             </div>
                             <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                                <label for="name"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="ID" id="ID" placeholder="아이디(이메일형식)" onkeyup="idCheck()"/>
+                                <span id="idCheck"></span>
                             </div>
                             <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password"/>
+                                <label for="name"><i class="zmdi zmdi-face"></i></label>
+                                <input type="text" name="NICKNAME" id="NICKNAME" placeholder="닉네임"/>
                             </div>
                             <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                                <label for="name"><i class="zmdi zmdi-calendar"></i></label>
+                                <input type="text" name="BIRTH" id="BIRTH" readonly="readonly"  placeholder="생년월일"/>
                             </div>
                             <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                                <label for="name"><i class="zmdi zmdi-smartphone"></i></label>
+                                <input type="text" name="PHONE" id="PHONE" placeholder="전화번호"/>
                             </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-smartphone"></i></label>
+                                <input type="text" name="GENDER" id="GENDER" placeholder="성별"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="PASSWORD" id="PASSWORD" placeholder="비밀번호"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="password"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="RE_PASS" id="RE_PASS" placeholder="비밀번호 재입력"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" readonly="readonly" name="ZIPCODE" id="ZIPCODE" onclick="execDaumPostcode()" placeholder="우편번호"/>
+                                <input type="text" readonly="readonly" name="ADDR1" id="ADDR1" placeholder="주소"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-home"></i></label>
+                                <input type="text" name="ADDR2" id="ADDR2" placeholder="상세주소"/>
+                            </div>
+                            
+                          
+                             <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term"  />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span> 모든 <a href="${pageContext.request.contextPath }/L_member/fregister" class="term-service">회원가입 약관</a>에 동의합니다.</label>
+                            </div>
+                            
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                                <input type="submit" id="signup" class="form-submit" value="가입하기"/>
                             </div>
                         </form>
                     </div>
+                    
                     <div class="signup-image">
                         <figure><img src="${pageContext.request.contextPath }/resources/images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">I am already member</a>
+                        <a href="${pageContext.request.contextPath }/L_member/login" class="signup-image-link">이미 계정이 있습니다.</a>
                     </div>
                 </div>
             </div>

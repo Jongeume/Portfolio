@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ include file="include.jsp" %>
 <!doctype html>
 <html lang="ko">
 <head>
@@ -12,22 +11,14 @@
   	<meta name="author" content="">
 
 	<title>Home</title>
-
-	<!-- Bootstrap core CSS -->
-	<link  rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css">
-	<!-- Custom styles for this template -->
-	<link  rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/small-business.css">  
-	<!-- Bootstrap core JavaScript -->
-  	<script src="${pageContext.request.contextPath }/resources/jquery/jquery.min.js"></script>
-  	<script src="${pageContext.request.contextPath }/resources/js/bootstrap.bundle.min.js"></script>
+	
+	<%@ include file="script_tags.jsp" %>
 	
 	
-
 </head>
 <body>
-	
-
-
+	<%@ include file="banner_context.jsp" %>
+		
   <!-- Page Content -->
   <div class="container">
 

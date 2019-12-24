@@ -4,11 +4,21 @@
 <mapper namespace="kr.yjh.lecture.dao.L_memberDAO">
 	
 	<!-- 1. 회원정보 DB에 저장 -->
-	<insert id="insert" parameterType="L_memberVO">
+	<insert id="insert" parameterType="kr.yjh.lecture.vo.L_memberVO">
 		insert into LEC_MEMBER
 		values
-		(LEC_MEMBER_M_NO_SEQ.nextval, #{ID}, #{PASSWORD}, #{NAME}, #{GENDER}, #{BIRTH}, #{PHONE}, SYSDATE, 0, #{ZIPCODE}, #{ADDR1}, #{ADDR2})	
+		(LEC_MEMBER_M_NO_SEQ.nextval, #{ID}, #{PASSWORD}, #{NAME}, #{NICKNAME}, #{BIRTH}, #{PHONE}, #{ZIPCODE}, #{ADDR1}, #{ADDR2}, #{GENDER}, 0,  SYSDATE)	
 	</insert>	
 	
-
+	<!-- 2-1. 회원 아이디 읽기(로그인, 인증 -->
+	<select id="selectByID" parameterType="java.util.HashMap" resultType="kr.yjh.lecture.vo.L_memberVO">
+		select * from LEC_MEMBER where ID=#{ID}
+	</select>
+	
+	<!-- 2-2. USE값 변경  -->
+	<update id="updateUse" parameterType="java.util.HashMap">
+		update LEC_MEMBER set
+		USE=#{USE} where ID=#{ID}
+	</update>
+	
 </mapper>
