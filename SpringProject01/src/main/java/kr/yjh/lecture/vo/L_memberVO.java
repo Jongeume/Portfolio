@@ -25,7 +25,7 @@ public class L_memberVO {
  	private String ZIPCODE;
 	private String ADDR1;
 	private String ADDR2;
-	private int GENDER;
+	private String GENDER;
 	private int USE; // 0 = 인증미완료 , 1 = 관리자계정 ,2 = 인증완료
 	private Date REGDATE;
 	

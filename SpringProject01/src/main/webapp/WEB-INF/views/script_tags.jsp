@@ -29,6 +29,10 @@
  
   <!-- ===============================================join=============================================== -->    
 	
+	<!-- join tab css -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/joinForm.css" />
+	
+	
 	<!-- dateRangePicker - JavaScrips & CSS -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
@@ -64,138 +68,65 @@
     
     
     <!--  폼검증(이메일,전화번호 형식) - javaScript -->
-   	<script src="${pageContext.request.contextPath }/resources/js/validate.js"></script>
+   	<script src="${pageContext.request.contextPath }/resources/js/validate.js?version=2"></script>
     <!--  폼검증,중복확인 - jQuery -->
-    <script type="text/javascript">
-    	// 폼검증 함수
-    	function formCheck(){
-    		var data = $("#NAME").val();
-    		if(!data || data.trim().length==0){
-    			$("#NAME").val("");
-    			$("#NAME").focus();
-				return false;
-    		}
-    		if($("#idCheck").css('color')=='rgb(255, 0, 0)'){
-    			alert('가입이 불가능한 아이디입니다.');
-    			$("ID").val("");
-    			$("ID").focus();
-    			return false;
-    		}
-    		var data = $("#ID").val();
-    		if(!data || data.trim().length==0){
-    			//alert('아이디는 반드시 입력해야합니다.');
-    			$("#ID").val("");
-    			$("#ID").focus();
-    			return false;
-    		}
-    		if(!validateEmail(data)){
-    			alert('아이디가 이메일 형식이 아닙니다.');
-    			$("#ID").val("");
-    			$("#idCheck").html("아이디가 이메일 형식이 아닙니다!");
-    			$("#ID").focus();
-    			return false;
-    		}
-    		var data = $("#NICKNAME").val();
-    		if(!data || data.trim().length==0){
-    			//alert('닉네임은 반드시 입력해야 합니다!');
-    			$("#NICKNAME").val("");
-    			$("#NICKNAME").focus();
-    			return false;
-    		}
-    		var data = $("#BIRTH").val();
-    		if(!data || data.trim().length==0){
-    			//alert('생년월일은 반드시 입력해야 합니다!');
-    			$("#BIRTH").val("");
-    			$("#BIRTH").focus();
-    			return false;
-    		}
-    		var data = $("#PHONE").val();
-    		if(!data || data.trim().length==0){
-    			//alert('전화번호는 반드시 입력해야 합니다!')
-    			$("#PHONE").val("");
-    			$("#PHONE").focus();
-    			return false;
-    		}
-    		if(!validatePhone(data)){
-    			alert('전화번호 형식은 000-0000-0000입니다.')
-    			$("#PHONE").val("");
-    			$("#PHONE").focus();
-    			return false;
-    		}
-    		
-    		var data = $("#PASSWORD").val();
-    		if(!data || data.trim().length==0){
-    			//alert('비밀번호는 반드시 입력해야 돼!!!!');
-    			$("#PASSWORD").val("");
-    			$("#PASSWORD").focus();
-    			return false;
-    		}
-    		var data = $("#RE_PASS").val();
-    		if(!data || data.trim().length==0){
-    			//alert('비밀번호 확인는 반드시 입력해야 돼!!!!');
-    			$("#RE_PASS").val("");
-    			$("#RE_PASS").focus();
-    			return false;
-    		}
- 			if($("#PASSWORD").val() != $("#RE_PASS").val()){
- 				alert('비밀번호가 일치하지 않습니다.');
-    			$("#PASSWORD").val("");
-    			$("#RE_PASS").val("");
-    			$("#PASSWORD").focus();
-    			return false;
- 			}  		
- 			var data = $("#ZIPCODE").val();
- 			if(!data || data.trim().length==0){
-				execDaumPostcode();
- 				return false;
- 			}
- 			var data = $("#ADDR2").val();
- 			if(!data || data.trim().length==0){
- 				alert('주소!');
- 				$("#ADDR2").val("");
- 				$("#ADDR2").focus();
- 				return false;
- 			} 		
- 			
- 			
- 			// 회원가입 약관 체크 attr
- 			var data = $("#agree-term").prop("checked");
- 			if(data == false){
- 				alert('회원가입 약관 동의해')
- 				return false;
- 			}
- 			
- 			alert('회원가입 되었습니다! 인증메일을 확인해주세요!')
-    		return true;
-    	}
-    	
-    	// 아이디중복 함수
-    	function idCheck(){
-    		var value = $("#ID").val();
-    		if(value.length > 10){
-    			$.ajax('idCheck',{
-    				type:'GET',
-    				data:{'ID' : value},
-    				dataType:'json',
-    				error : function(){
-    					alert('실패');
-    				},
-    				success : function(data){
-						if(data==1)
-						$('#idCheck').css('color','red').html("사용 불가능한 아이디 입니다.");
-						else
-						$('#idCheck').css('color','green').html("사용 가능한 아이디 입니다.");							
-    				}
-    			});
-    		}else{
-    			$('#idCheck').html("");
-    		}
-    	}
-	
-    	
-    	
-    	
-    	
-    	
+	<script src="${pageContext.request.contextPath }/resources/js/formCheck.js?version=11"></script>	
+
+
+
+	<!-- 로그인정보오류(아이디 또는 비밀번호 오류) -->
+	<script type="text/javascript">
+			var result = '${msg}';
+			
+			switch(result) {
+			
+				case '비번찾기실패-아이디'  : alert("아이디가 존재하지 않습니다!");
+						break;
+						
+				case '비번찾기실패-이름' : alert("이름이 일치하지 않습니다!");
+						break;
+						
+				case '비번찾기실패-둘다' : alert("이름과 아이디 둘다 일치하지 않습니다.");
+						break;
+						
+				case '로그인성공' : alert("로그인 성공!!!");
+						break;
+						
+				case '비번틀림' : alert("비밀번호를 잘못 입력하셨습니다.");
+						break;
+						
+				case '아이디없음' : alert("등록된 아이디가 없습니다");
+						break;
+					
+				case '인증성공' : alert("회원 인증 완료!");
+						break;
+						
+				case '미인증' : alert("미인증 계정입니다!");
+						break;
+						
+				case '아이디찾기실패' : alert("이름과 전화번호가 일치하지 않습니다.");
+						break;
+						
+				case '비번찾기성공' : alert("임시 비밀번호가 발급되었습니다!\n메일을 확인해주세요!");
+						break;
+				
+				case '비번변경-성공' : alert("비밀번호가 성공적으로 변경 되었습니다!");
+						break;
+				
+				case '비번변경-실패' : alert("기존 비밀번호가 틀립니다!");
+						break;
+			
+				case '회원탈퇴성공' : alert("회원탈퇴 성공");
+						break;
+				
+						
+			}
+		
 	</script>
+	
+
+
+
+
+
 	

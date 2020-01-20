@@ -10,7 +10,7 @@ CREATE TABLE LEC_MEMBER -- 인강 회원관리 테이블
 	ZIPCODE		VARCHAR2(50)	NULL,	  -- 우편번호
 	ADDR1		VARCHAR2(100)	NULL,	  -- 주소
 	ADDR2		VARCHAR2(100)	NULL,	  -- 상세 주소
-	GENDER		NUMBER(1)		NULL,	  -- 성별
+	GENDER		VARCHAR2(10)	NULL,	  -- 성별
 	USE			NUMBER(1)		NULL,	  -- 사용여부
 	REGDATE		TIMESTAMP		NULL	  -- 등록일
 	);

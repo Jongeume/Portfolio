@@ -24,41 +24,27 @@
 	});
 </script>
 
-<style type="text/css">
-	#btn1 {
-	    width:80px;
-	    background-color: #6dabe4;
-	    border: 1.7px solid #6dabe4;
-	    color:#FFF;
-	    padding: 2px 0;
-	    text-align: center;
-	    text-decoration: none;
-	    display: inline-block;
-	    font-size: 17px;
-	    margin: 2px;
-	    cursor: pointer;
-	    border-radius:10px;
-	}
-	
-	#btn1:hover {
-	    background-color: #4292dc;
-	    border: 1.7px solid #4292dc;
-	    color: #FFF;
-	}
-</style>
-
-
-
 </head>
 <body>
 
 	<%@ include file="banner_context.jsp"%>
 	
+	<div class="centered1">
+			<button class='tab-on'>회원약관</button>
+			<button class='tab' >회원가입</button>
+			<button class='tab'>가입완료</button>
+	</div>	
 	
-	<form action="${pageContext.request.contextPath }/L_member/join">
+	
+    <div class="main" style="padding: 1px">
+     	            	
+	 <section class="signup">
+            <div class="container">
+       
+                        <form class="register-form" name="register-form" id="register-form" >
+       
 
-
-	<table width="600" cellspacing="0" align="center">
+	<table width="600" cellspacing="0" align="center" style=" padding-bottom: 50px;" >
 		<tbody>
 			<tr>
 				<td align="center"><br />
@@ -279,11 +265,16 @@
 		</tbody>
 	</table>
 		<br />
-		<div align=center>
-			<button  id="btn1" >확인</button>
-		</div>
-	
-	</form>
-	
+		
+						<div align=center>
+							<button type="button" class='btn1' style="width: 130px" onclick="location.href='join'" >동의</button>
+							<button type="button" class='btn2' style="width: 130px" onclick="location.href='home'" >동의 안 함</button>
+						</div>
+					
+	                </form>
+            </div>
+        </section>
+        
+	</div>
 </body>
 </html>
