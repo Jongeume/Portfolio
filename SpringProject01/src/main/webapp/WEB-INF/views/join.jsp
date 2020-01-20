@@ -10,60 +10,104 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>회원가입</title>
 	
-    <!-- Font Icon -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/fonts/material-icon/css/material-design-iconic-font.min.css">
-
-    <!-- Main css -->
-    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/style.css">
-    <!-- JS -->
-    <script src="${pageContext.request.contextPath }/resources/vendor/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath }/resources/js/main.js"></script>
-    
+	<%@ include file="script_tags.jsp" %>
 	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<style type="text/css">
+		select {
+			  width: 100%;
+			  display: block;
+			  border: none;
+			  border-bottom: 1px solid #999;
+			  padding: 6px 30px;
+			  font-family: Poppins;
+			  box-sizing: border-box; 
+			}
+			
+	</style>
+	
 </head>
 <body>
-	
-    <div class="main">
 
+	<%@ include file="banner_context.jsp" %>
+	
+    <div class="main" style="padding: 70px">
+     	            	
+	<div class="centered">
+		<button class='tab' >회원약관</button>
+		<button class='tab-on'>회원가입</button>
+		<button class='tab'>가입완료</button>
+	</div>	
         <!-- Sign up form -->
         <section class="signup">
             <div class="container">
                 <div class="signup-content">
-                    <div class="signup-form">
-                        <h2 class="form-title">Sign up</h2>
-                        <form method="POST" class="register-form" id="register-form">
+                    <div class="signup-form" style="font-size: 12pt">
+       
+                        <h2 class="form-title">회원 가입</h2>
+                        <form method="POST" class="register-form" name="register-form" id="register-form"  action="${pageContext.request.contextPath }/L_member/joinOk" onsubmit="return formCheck()">
+                        
                             <div class="form-group">
-                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="name" id="name" placeholder="Your Name"/>
+                                <label for="name" style="top: 30%;"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="NAME" id="NAME" placeholder="이름" onkeyup="nameCheck()"/>
+                                <b id="nameCheck"></b>
                             </div>
                             <div class="form-group">
-                                <label for="email"><i class="zmdi zmdi-email"></i></label>
-                                <input type="email" name="email" id="email" placeholder="Your Email"/>
+                                <label for="name" style="top: 30%;"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" name="ID" id="ID" placeholder="아이디(이메일형식)" onkeyup="idCheck()"/>
+								<b id="idCheck"></b>
                             </div>
                             <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="pass" id="pass" placeholder="Password"/>
+                                <label for="name" style="top: 30%;"><i class="zmdi zmdi-face"></i></label>
+                                <input type="text" name="NICKNAME" id="NICKNAME" placeholder="닉네임" onkeyup="nicknameCheck()" />
+                                <b id="nicknameCheck"></b>
                             </div>
                             <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password"/>
+                                <label for="name"><i class="zmdi zmdi-calendar"></i></label>
+                                <input type="text" name="BIRTH" id="BIRTH" readonly="readonly"  placeholder="생년월일"/>
+                            </div>
+                            <div class="form-group" >
+                                <label for="name" style="top: 30%;"><i class="zmdi zmdi-smartphone"></i></label>
+                                <input type="text" name="PHONE" id="PHONE" placeholder="전화번호" onkeyup="phoneCheck()"/>
+                                <b id="phoneCheck"></b>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-smartphone"></i></label>
+								<select name="GENDER" id="GENDER" >
+									<option value=""  selected hidden="">성별</option>
+									<option value="F">여자</option>
+									<option value="M">남자</option>
+								</select>
                             </div>
                             <div class="form-group">
-                                <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                                <label for="password" style="top: 30%;"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="PASSWORD" id="PASSWORD" placeholder="비밀번호" onkeyup="pwCheck()"/>
+                                <b id="pwCheck"></b>
                             </div>
+                            <div class="form-group">
+                                <label for="password" style="top: 30%"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="RE_PASS" id="RE_PASS" placeholder="비밀번호 재입력" />
+								<b id="pwCheck2"></b>                          
+                            </div>
+                            <div class="form-group">
+                                <label for="name" style="top: 25%"><i class="zmdi zmdi-email"></i></label>
+                                <input type="text" readonly="readonly" name="ZIPCODE" id="ZIPCODE" onclick="execDaumPostcode()" placeholder="우편번호"/>
+                                <input type="text" readonly="readonly" name="ADDR1" id="ADDR1" placeholder="주소"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-home"></i></label>
+                                <input type="text" name="ADDR2" id="ADDR2" placeholder="상세주소"/>
+                            </div>
+                          
                             <div class="form-group form-button">
-                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                                <input type="submit" id="signup" class="form-submit" value="가입하기"/>
                             </div>
                         </form>
                     </div>
+                    
                     <div class="signup-image">
                         <figure><img src="${pageContext.request.contextPath }/resources/images/signup-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">I am already member</a>
+                        <a href="${pageContext.request.contextPath }/L_member/login" class="signup-image-link" style="font-size: 12pt">이미 계정이 있습니다.</a>
                     </div>
                 </div>
             </div>
