@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.yjh.lecture.dao.L_faqDAO">
+	
+	<!-- FAQ 게시판 글입력 (회원) -->			
+	<insert id="insertFAQ" parameterType="L_faqVO">
+		insert into FAQ 
+		values
+		(FAQ_FAQ_NO_SEQ.nextval,#{TYPE_NO}, #{FAQ_NAME} ,#{FAQ_CONTENT}, SYSDATE)
+	</insert>
+	
+	<!-- FAQ 카테고리 추가 (관리자전용)-->			
+	<insert id="insertCategory" parameterType="L_faqCategoryVO">
+		insert into FAQ_CATEGORY
+		values
+		(FAQ_CATEGORY_TYPE_NO_SEQ.nextval, #{FAQ_TYPE})
+	</insert>		
+	
+	
+	<!-- FAQ 카테고리 수정 (관리자전용)-->			
+	<update id="updateCategory">
+		update into FAQ_CATEGORY
+		set 
+	</update>	
+	
+	
+	<!-- FAQ 카테고리 삭제 (관리자전용)-->			
+	<delete id="deleteCategory">
+	
+	</delete>	
+		
+		
+	<select id="selectFaqCategory" resultType="L_faqCategoryVO" parameterType="L_faqCategoryVO">
+		select * from FAQ_CATEGORY order by TYPE_NO ASC
+	</select>
+	
+	
+	<!-- FAQ카테고리 리스트 (공용) -->
+	<select id="categoryList" resultType="L_faqCategoryVO" >
+		select 
+			TYPE_NO,
+			FAQ_TYPE
+		from
+			FAQ_CATEGORY
+		order by 
+			TYPE_NO
+	</select>
+	
+	
+	<select id="faqList" resultType="L_faqVO">
+		select 
+			faq_no,
+			type_no,
+			faq_name,
+			faq_content,
+					CASE WHEN regdate > TO_CHAR(SYSDATE,'YY/MM/DD') THEN
+			TO_CHAR(regdate,'HH24:MI')
+		ELSE 
+			TO_CHAR(regdate,'YY/MM/DD')
+		END regdate
+		from FAQ 
+		where TYPE_NO = #{TYPE_NO}
+		order by
+			 TYPE_NO desc
+	</select>
+			
+</mapper>

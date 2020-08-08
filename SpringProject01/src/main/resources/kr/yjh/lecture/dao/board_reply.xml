@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.yjh.lecture.dao.board_replyDAO">
+
+<!-- 댓글 입력 -->
+<insert id="insertReply" parameterType="board_replyVO">
+		
+	insert into board_reply
+	values 
+	(board_reply_br_no_seq.nextval, #{fb_no}, #{br_content}, #{br_id}, SYSDATE, SYSDATE )
+
+</insert>
+
+<!-- 댓글리스트 -->
+<select id="replyList" resultType="board_replyVO">
+
+	SELECT 
+		br_no, fb_no, br_content, br_id, br_date, br_edt
+	FROM
+		 board_reply
+	WHERE
+		 fb_no = #{fb_no}
+	ORDER BY br_date DESC   
+	
+</select>
+
+<!-- 삭제하기 -->
+<delete id="delReply" >
+	delete from board_reply where br_no= #{br_no}
+</delete>
+<!-- 삭제하기 -->
+<delete id="delContent" >
+	delete from board_reply where fb_no= #{fb_no}
+</delete>
+
+<!-- 댓글 수정 -->
+<update id="updateReply" parameterType="board_replyVO">
+	update
+		board_reply
+	set
+		br_content = #{br_content},
+		br_edt = SYSDATE
+	where
+		br_no = #{br_no}	
+</update>
+	
+</mapper>
