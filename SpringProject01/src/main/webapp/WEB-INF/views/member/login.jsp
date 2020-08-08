@@ -8,14 +8,24 @@
 	<title>회원관리-로그인</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<%@ include file="script_tags.jsp" %>
-		
+	<%@ include file="/WEB-INF/views/include/script_tags.jsp" %>
 	<script src="${pageContext.request.contextPath }/resources/js/cookie.js?ver=1"></script>	
+<style type="text/css">
+.btn-info{
+	font-weight: bold;
 	
+}
+.btn-info:hover {
+	color: #FFE659;
+	text-decoration: none;
+	
+}
+
+</style>
 </head>
 <body>
 	
-	<%@ include file="banner_context.jsp" %>
+	<%@ include file="/WEB-INF/views/include/banner_context.jsp" %>
 	
 	 <!-- Sing in  Form -->
 	 <div class="main" style="padding: 70px">
@@ -39,10 +49,10 @@
                             </div>
                             <div class="form-group">
 								<input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                                <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span>아이디 저장</label>
                             </div>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="로그인하기"/>
+                                <input type="submit" name="signin" id="signin" class="btn btn-info" value="로그인하기"/>
                             </div>
                         </form>
                         

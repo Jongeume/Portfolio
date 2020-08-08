@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,26 +14,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.yjh.lecture.service.L_memberService;
+import kr.yjh.lecture.service.fb_boardService;
 import kr.yjh.lecture.vo.L_memberVO;
+import lombok.extern.log4j.Log4j;
 
 @Controller
+@Log4j
 public class L_memberController{
 	
 	
 	@Autowired
 	private L_memberService service;
+	
+	@Autowired
+	private fb_boardService fbservice;
 
 	@RequestMapping(value="/L_member/join")
 	public String join(HttpServletRequest request) {
 		if(request.getSession().getAttribute("sessionVO")!=null) {
 			return "redirect:/";
 		}
-		return "join";
+		return "/member/join";
 	}
 	
 	@RequestMapping(value="/L_member/fregister")
 	public String fregister() {
-		return "fregister";
+		return "/member/fregister";
 	}
 	
 	@RequestMapping(value="/L_member/joinOk", method=RequestMethod.GET)
@@ -40,24 +47,24 @@ public class L_memberController{
 		return "redirect:login";
 	}
 
-	
+	@Transactional
 	@RequestMapping(value="/L_member/joinOk", method=RequestMethod.POST)
 	public String joinOkPOST(@ModelAttribute L_memberVO vo) {
-		System.out.println(vo+"************ joinOkPOST **********");
+		log.info(vo+"************ joinOkPOST **********");
 		// 서비스를 호출해서 DB에 저장하고
 		service.insert(vo);
-		return "joinComplete";
+		return "/member/joinComplete";
 	}
 
 	@RequestMapping(value="/L_member/joinComplete")
 	public String joinComplete() {
-		return "joinComplete";
+		return "/member/joinComplete";
 	}
 	
 	
 	@RequestMapping(value="/L_member/confirm", method=RequestMethod.GET)
 	public String confirm(@RequestParam String ID, RedirectAttributes rttr) {
-		System.out.println(ID+"************ Confirm **********");
+		log.info(ID+"************ Confirm **********");
 		// 서비스를 호출해서 confirm
 		rttr.addFlashAttribute("msg", "인증성공");
 		service.confirm(ID);
@@ -71,7 +78,7 @@ public class L_memberController{
 		if(request.getSession().getAttribute("sessionVO")!=null) {
 			return "redirect:/";
 		}// 로그인한 상태에서 로그인폼으로 이동 못하게 막음.
-		return "login";
+		return "/member/login";
 		}
 	
 	@RequestMapping(value="/L_member/loginOk", method=RequestMethod.GET)
@@ -82,14 +89,16 @@ public class L_memberController{
 	@RequestMapping(value="/L_member/loginOk", method=RequestMethod.POST)
 	public String loginOkPOST(@ModelAttribute L_memberVO memberVO, HttpServletRequest request, RedirectAttributes rttr){
 		L_memberVO vo = service.loginOk(memberVO);
+		log.info("로그인시도");
 		if(vo!=null) { 
 			if(vo.getUSE()==0) {
 				rttr.addFlashAttribute("msg","미인증");
 				return "redirect:login";
 			}else if(vo.getUSE()==2) {
 				request.getSession().setAttribute("sessionVO", vo); // 세션에 저장
-				request.getSession().setMaxInactiveInterval(60*30); // 세션 유지시간 15분 설정
+				request.getSession().setMaxInactiveInterval(60*60); // 세션 유지시간 15분 설정
 				rttr.addFlashAttribute("msg", "로그인성공");
+				log.info("로그인성공");
 				return "redirect:/"; // home으로
 			}else {
 				return "redirect:/";
@@ -97,7 +106,7 @@ public class L_memberController{
 		}else {
 			String result = service.loginError(memberVO);
 			if(result=="NO") {
-				System.out.println(vo+"******* login error!!! ******");
+				log.info(vo+"******* login error!!! ******");
 			}else if(result=="1") {
 				rttr.addFlashAttribute("msg", "아이디없음");
 			}else if(result=="2") {
@@ -110,7 +119,7 @@ public class L_memberController{
 	@RequestMapping(value="/L_member/idCheck")
 	@ResponseBody
 	public String idCheck(@RequestParam String ID) {
-		System.out.println(ID + "******************* idCheck **************************");
+		log.info(ID + "******************* idCheck **************************");
 		// 서비스를 호출해서 아이디 중복 검사
 		String result = service.idCheck(ID);
 		return result;
@@ -119,7 +128,7 @@ public class L_memberController{
 	@RequestMapping(value="/L_member/phoneCheck")
 	@ResponseBody
 	public String phoneCheck(@RequestParam String PHONE) {
-		System.out.println(PHONE + "******************* idCheck **************************");
+		log.info(PHONE + "******************* idCheck **************************");
 		// 서비스를 호출해서 아이디 중복 검사
 		String result = service.phoneCheck(PHONE);
 		return result;
@@ -129,7 +138,7 @@ public class L_memberController{
 	@RequestMapping(value="/L_member/nicknameCheck")
 	@ResponseBody
 	public String nicknameCheck(@RequestParam String NICKNAME) {
-		System.out.println(NICKNAME + "******************* nicknameCheck **************************");
+		log.info(NICKNAME + "******************* nicknameCheck **************************");
 		// 서비스를 호출해서 아이디 중복 검사
 		String result = service.nicknameCheck(NICKNAME);
 		return result;
@@ -144,7 +153,7 @@ public class L_memberController{
 	
 	@RequestMapping(value="/L_member/idSearch")
 	public String idSearch(){
-		return "idSearch";
+		return "member/idSearch";
 	}
 	
 	@RequestMapping(value="/L_member/idSearchOk" , method=RequestMethod.GET)
@@ -155,48 +164,48 @@ public class L_memberController{
 	@RequestMapping(value="/L_member/idSearchOk" , method=RequestMethod.POST)
 	public String idSearchOkPOST(@ModelAttribute L_memberVO memberVO, Model model, RedirectAttributes rttr) {
 		L_memberVO vo = service.idSearch(memberVO);
-			//	System.out.println("************* idSearchOk ****************");
-			//	System.out.println(vo);
+			//	log.info("************* idSearchOk ****************");
+			//	log.info(vo);
 		if(vo==null) {
-			System.out.println("************* idSearchOk failed ****************");
+			log.info("************* idSearchOk failed ****************");
 			rttr.addFlashAttribute("msg","아이디찾기실패");
 			return "redirect:idSearch";
 		}else {
-			System.out.println("************* idSearchOk Success ****************");
+			log.info("************* idSearchOk Success ****************");
 			model.addAttribute("ID", vo.getID());
 			model.addAttribute("NAME", vo.getNAME());
-			return "viewIDPage";
+			return "member/viewIDPage";
 		}
 		
 	}
 	
 	@RequestMapping(value="/L_member/pwSearch")
 	public String pwSearch() {
-		return "pwSearch";
+		return "member/pwSearch";
 	}
 	
 	@RequestMapping(value="/L_member/pwSearchOk", method=RequestMethod.GET)
 	public String pwSearchOkGET() {
-		return "redirect:login";
+		return "redirect:member/login";
 	}
 	
 	@RequestMapping(value="/L_member/pwSearchOk", method=RequestMethod.POST)
 	public String pwSearchOkPOST(@ModelAttribute L_memberVO memberVO, RedirectAttributes rttr) {
-		System.out.println(memberVO+"****************************야호오****************************");
+		log.info(memberVO+"****************************야호오****************************");
 		/*
 		L_memberVO vo = service.PWSearch(memberVO);
 		 * if(vo==null) {
-			System.out.println("************* PWSearchOk failed ****************");
+			log.info("************* PWSearchOk failed ****************");
 			rttr.addFlashAttribute("msg","비번찾기실패");
 			return "redirect:passwordSearch";
 		}else {
-			System.out.println("************* PWSearchOk Success ****************");
+			log.info("************* PWSearchOk Success ****************");
 			service.PWUpdate(vo);
 		}
 		*/
 		String result = service.idCheck(memberVO.getID());
 		if(result=="0") {
-			System.out.println("아이디없음");
+			log.info("아이디없음");
 			rttr.addFlashAttribute("msg","비번찾기실패-아이디");
 			return "redirect:join";
 		}else if(result=="1") {
@@ -206,7 +215,7 @@ public class L_memberController{
 				service.updatePW(vo);
 				rttr.addFlashAttribute("msg","비번찾기성공");
 			}else {
-				System.out.println("이름이같지않아!!");
+				log.info("이름이같지않아!!");
 				rttr.addFlashAttribute("msg","비번찾기실패-이름");
 				return "redirect:pwSearch";
 			}
@@ -221,7 +230,7 @@ public class L_memberController{
 		if(request.getSession().getAttribute("sessionVO")==null) {
 			return "redirect:login";
 		}
-		return "myPage";
+		return "member/myPage";
 	}
 	@RequestMapping(value="/L_member/profile")
 	public String profile(HttpServletRequest request,Model model) {
@@ -230,7 +239,7 @@ public class L_memberController{
 		}
 		L_memberVO vo = (L_memberVO) request.getSession().getAttribute("sessionVO");
 		model.addAttribute("gender",vo.getGENDER());
-		return "profile";
+		return "member/profile";
 	}
 	
 	@RequestMapping(value="/L_member/profileOk", method=RequestMethod.GET)
@@ -240,7 +249,7 @@ public class L_memberController{
 	
 	@RequestMapping(value="/L_member/profileOk", method=RequestMethod.POST)
 	public String profileOkPOST(@ModelAttribute L_memberVO memberVO, HttpServletRequest request) {
-		 System.out.println(memberVO+"**********profileOk Post**************");
+		 log.info(memberVO+"**********profileOk Post**************");
 		 if(memberVO.getGENDER().equals("남자")) {
 			 memberVO.setGENDER("M");
 		 }else {
@@ -249,7 +258,7 @@ public class L_memberController{
 		 // 세션 초기화(정보 수정했기에 초기화)
 		L_memberVO vo =  service.updateMember(memberVO);
 		request.getSession().removeAttribute("sessionVO");
-		System.out.println(vo+"*************** update Member ********************");
+		log.info(vo+"*************** update Member ********************");
 		if(vo!=null) { 
 			request.getSession().setAttribute("sessionVO", vo); // 세션에 저장
 			request.getSession().setMaxInactiveInterval(60*30); // 세션 유지시간 15분 설정
@@ -264,7 +273,7 @@ public class L_memberController{
 		if(request.getSession().getAttribute("sessionVO")==null) {
 			return "redirect:login";
 		}
-		return "pwUpdate";
+		return "member/pwUpdate";
 	}
 	
 	@RequestMapping(value="/L_member/pwUpdateOk", method=RequestMethod.GET)
@@ -274,23 +283,34 @@ public class L_memberController{
 	
 	@RequestMapping(value="/L_member/pwUpdateOk", method=RequestMethod.POST)
 	public String pwUpdateOkPOST(@ModelAttribute L_memberVO memberVO,@RequestParam("oldPw") String oldPw, RedirectAttributes rttr) {
-				System.out.println(memberVO+"********** pwUpdate start **********");
+				log.info(memberVO+"********** pwUpdate start **********");
 				String result = service.updateMemberPW(memberVO, oldPw);
 				if(result=="1") {
 					rttr.addFlashAttribute("msg","비번변경-성공");
-					return "redirect:home";
+					return "redirect:/";
 				}else {
 					rttr.addFlashAttribute("msg","비번변경-실패");
 					return "redirect:pwUpdate";
 				}
 	}
 	
+	@RequestMapping(value="/L_member/myContent")
+	public String myContent(@RequestParam String fb_userID, HttpServletRequest request, Model model) {
+		log.info(fb_userID+"내 게시물 보기");
+		if(request.getSession().getAttribute("sessionVO")==null) {
+			return "redirect:login";
+		}
+		model.addAttribute("fbContent", fbservice.myContent(fb_userID));
+		return "member/myContent";
+	}
+	
+	
 	@RequestMapping(value="/L_member/deleteMember")
 	public String deleteMember(HttpServletRequest request){
 		if(request.getSession().getAttribute("sessionVO")==null) {
 			return "redirect:login";
 		}
-		return "deleteMember";
+		return "member/deleteMember";
 		
 	}
 	
@@ -305,7 +325,7 @@ public class L_memberController{
 		if(result=="1") {
 			request.getSession().removeAttribute("sessionVO");
 			rttr.addFlashAttribute("msg", "회원탈퇴성공");
-			return "redirect:home";
+			return "redirect:/";
 		}else {
 			rttr.addFlashAttribute("msg", "비번틀림");
 			return "redirect:deleteMember";

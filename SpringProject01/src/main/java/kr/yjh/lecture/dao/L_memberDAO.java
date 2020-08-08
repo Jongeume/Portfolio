@@ -16,8 +16,8 @@ public interface L_memberDAO {
 	// USE값 변경 
 	void updateUse(HashMap<String, String> map); //-- 
 
-	// 로그인 체킹
-	L_memberVO loginCheck(HashMap<String, String> map);
+/*	// 로그인 체킹
+	L_memberVO loginCheck(HashMap<String, String> map);*/
 	
 	// 아이디 찾기
 	L_memberVO userIDSearch(HashMap<String, String> map);
@@ -28,6 +28,7 @@ public interface L_memberDAO {
 	// 이름, 아이디로 회원정보 확인
 	L_memberVO selectByIDandNAME(HashMap<String, String> map);
 	
+	// 중복된 아이디 체크
 	int countMember(String ID);
 	
 	int countNickname(String NICKNAME);

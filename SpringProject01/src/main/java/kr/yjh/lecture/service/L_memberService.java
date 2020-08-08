@@ -2,8 +2,6 @@ package kr.yjh.lecture.service;
 
 import java.util.HashMap;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.slf4j.Logger;
@@ -82,7 +80,7 @@ public class L_memberService {
 	    	final MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
 			helper.setFrom("jongeume@gmail.com");
 			helper.setTo(vo.getID());
-			helper.setSubject("인강사이트 회원가입을 축하드립니다.");
+			helper.setSubject("커뮤니티 사이트 회원가입을 축하드립니다.");
 			String html="반갑습니다."+vo.getID()+"님<br>"+
 						"회원가입을 축하드립니다.<br>"+
 						"회원 가입을 완료하실려면 다음의 링크를 클릭해서 인증하시기 바랍니다.<br>"+
