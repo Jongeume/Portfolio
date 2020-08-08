@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.yjh.lecture.dao.fb_boardDAO">
+
+
+	<!-- 글번호로 전체읽기 -->
+ 	<select id="selectByFn"  resultType="fb_boardVO">
+ 		select * from free_board where fb_no=#{fb_no}
+ 	</select>
+	
+
+	<!-- 저장 -->
+	<insert id="insertFb" parameterType="fb_boardVO">
+		insert into free_board
+		values
+		(free_board_fb_no_SEQ.nextval, #{fb_title}, #{fb_userID}, #{fb_pwd}, #{fb_content},
+		 SYSDATE, 0, 0, 0, #{fb_available})
+	</insert>
+	
+	<!-- 리스트 -->
+	<select id="listFb" resultType="fb_boardVO">
+	<![CDATA[
+	select RN, FB_NO, FB_TITLE, FB_USERID,FB_likeCnt, FB_hateCnt  ,FB_COUNT, FB_AVAILABLE, FB_CONTENT,
+		CASE WHEN fb_date > TO_CHAR(SYSDATE,'YY/MM/DD') THEN
+			TO_CHAR(fb_date,'HH24:MI')
+		ELSE 
+			TO_CHAR(fb_date,'YY/MM/DD')
+		END fb_date
+	 
+	from
+	(
+		select ROWNUM as RN, A.*
+		FROM 
+			(select * from free_board order by fb_no desc) A
+	)
+	where RN > #{startList} and RN <= ((#{page}) * #{listSize}) 
+	]]>
+	</select>
+	
+	<select id="latestList" resultType="fb_boardVO">
+		<![CDATA[
+		select  RN, FB_NO, FB_TITLE, FB_CONTENT, FB_LIKECNT,
+		CASE WHEN fb_date > TO_CHAR(SYSDATE,'YY/MM/DD') THEN
+			TO_CHAR(fb_date,'HH24:MI')
+		ELSE 
+			TO_CHAR(fb_date,'YY/MM/DD')
+		END fb_date
+		from
+		(
+			select ROWNUM as RN, A.*
+			FROM (select * from free_board order by fb_date desc) A
+		)
+		where RN >= 0 and RN <= 5
+	]]>
+	</select>	
+	<select id="popuarList" resultType="fb_boardVO">
+		<![CDATA[
+		select 
+	 	*
+		from
+		(
+			select ROWNUM as RN, A.*
+			FROM (select * from free_board order by fb_likeCnt desc) A
+		)
+		where RN >= 0 and RN <= 5
+	]]>
+	</select>	
+	<select id="hotest" resultType="fb_boardVO">
+		<![CDATA[
+		select 
+	 	*
+		from
+		(
+			select ROWNUM as RN, A.*
+			FROM (select * from free_board order by fb_count desc) A
+		)
+		where RN >= 0 and RN <= 5
+	]]>
+	</select>	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- row  -->
+	<select id="getBoardListCnt" resultType="int">
+		select
+			count(*) as listCnt
+		from
+			free_board
+	</select>
+	
+	
+	
+	<!-- 읽기 -->
+	<select id="readFb" resultType="fb_boardVO">
+	<![CDATA[
+		SELECT
+			FB_NO,
+			FB_TITLE,
+			FB_USERID,
+			FB_PWD,
+			FB_COUNT,
+			FB_AVAILABLE,
+			FB_LIKECNT,
+			FB_HATECNT,
+			FB_CONTENT,
+		CASE WHEN fb_date > TO_CHAR(SYSDATE,'YY/MM/DD') THEN
+			TO_CHAR(fb_date,'HH24:MI')
+		ELSE 
+			TO_CHAR(fb_date,'YY/MM/DD')
+		END fb_date
+		FROM
+			free_board
+		WHERE
+			fb_no = #{fb_no}
+	]]>
+	</select>
+	
+	<!-- 조회수 -->
+	<update id="updateViews">
+        <![CDATA[
+            UPDATE
+                free_board
+            SET
+                FB_COUNT = FB_COUNT + 1
+            WHERE
+                FB_NO = #{ FB_NO}
+        ]]>
+    </update>
+
+ 	<!-- 추천기능 -->
+	<update id="updateLikeCnt" parameterType="int">
+		update 
+			free_board
+		set 
+			fb_likeCnt = fb_likeCnt + 1
+		where
+			fb_no = #{fb_no }
+	</update>
+
+
+	<update id="updateHateCnt" parameterType="int">
+		update
+			free_board
+		set
+			fb_hateCnt = fb_hateCnt + 1
+		where 
+			fb_no = #{fb_no }
+	</update>	
+	
+	
+	<!-- 업뎃 -->
+	<update id="updateFb" parameterType="fb_boardVO"> 
+		update 
+			free_board
+		set
+			fb_title = #{fb_title},
+			fb_content = #{fb_content} 
+	   where 
+	   		fb_no = #{fb_no}
+	</update>
+	
+	
+	<!-- 삭제 -->
+	<delete id="delete" parameterType="int">
+		delete from free_board where fb_no = #{fb_no} 
+	</delete>
+
+	<!-- 자기가 쓴글 -->
+    <select id="myContent" resultType="fb_boardVO">
+   		select * 
+   		from free_board
+   		where fb_userID= #{fb_userID}
+    </select>
+		
+
+
+</mapper>
