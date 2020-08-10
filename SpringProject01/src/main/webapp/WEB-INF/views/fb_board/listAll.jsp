@@ -110,15 +110,16 @@ div.relative {
 				<c:choose>
 					<c:when test="${fn:length(listFb) > 0 }">
 
+
 						<c:forEach items="${listFb }" var="fb_boardVO">
 							<tr>
 								<td class="list_td">${fb_boardVO.fb_no }</td>
 								<td class="list_td"><a
 									href="${pageContext.request.contextPath }/fb_board/fbContent?fb_no=${fb_boardVO.fb_no}">${fb_boardVO.fb_title }
-										<c:if test="${fb_boardVO.fb_likeCnt > 0 }">
-										<span style="color : red; font-size: 8pt;">[${fb_boardVO.fb_likeCnt}]
+										<c:if test="${fb_boardVO.reCnt > 0 }">
+										<span style="color : #3c4790; font-size: 8pt;">[${fb_boardVO.reCnt}]
 										</span>
-									</c:if>
+										</c:if>
 									</a></td>
 									
 								<td class="list_td">${fb_boardVO.fb_userID }</td>

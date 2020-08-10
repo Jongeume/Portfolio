@@ -50,9 +50,23 @@
 	text-decoration: underline ;		
 }	
 
+/* 댓글 삭제폼 */
+.delReplyBox{
+ 	overflow: hidden;
+ 	postion:absoulte;
+ 	width:218px;
+ 	height:31px;
+ 	border:2px solid #3c4790;
+}
+
+
 </style>
 
-<script src="${pageContext.request.contextPath }/resources/js/freeboard.js"></script>
+
+
+
+
+<script src="${pageContext.request.contextPath }/resources/js/freeboard.js?vs=2"></script>
 
 <script type="text/javascript">
 var lcnt = '<c:out value="${fbContent.fb_likeCnt }" />';
@@ -61,6 +75,26 @@ var hcnt = '<c:out value="${fbContent.fb_hateCnt }" />';
 var hcnt2 = '<c:out value="${fbContent.fb_hateCnt }" />';
 var alreadyLikeClick = false;
 var alreadyHateClick = false;
+
+
+
+//댓글 삭제폼
+function delReplyForm(br_no){
+	
+	alert("일단 성공");
+	var htmls = "";
+	
+	htmls += '<div class="delReplyBox" id="'+br_no+'" >';
+	
+	htmls += '<input type="password" placeholder= "비밀번호" class="delReplyPwd" > ';
+
+	htmls += '<button type="button">확인</button> ';
+	
+	htmls += '</div>';
+	
+}
+
+
 </script>
 
 

@@ -264,6 +264,8 @@ public class fb_boardController {
 		return "success";
 	}
 
+	
+	// 댓글 삭제
 	@RequestMapping(value="/fb_board/delReply", method= {RequestMethod.GET, RequestMethod.POST})
 	@ResponseBody
 	public String delReply(@RequestParam("br_no") int br_no) {
