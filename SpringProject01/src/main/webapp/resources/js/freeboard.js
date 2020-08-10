@@ -98,9 +98,7 @@ $(document).ready(function() {
 // 댓글 스크립트
 function showReplyList() {
 	var value = $('#fno').val();
-	$
-			.ajax(
-					'getReplyList',
+	$.ajax( 'getReplyList',
 					{
 						type : 'GET',
 						data : {
@@ -150,9 +148,12 @@ function showReplyList() {
 															+ this.br_content
 															+ '\' )" style="padding-right:5px">수정</a>';
 
-													htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply('
+/*													htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply('
 															+ this.br_no
-															+ ')" >삭제</a>';
+															+ ')" >삭제</a>';*/
+													htmls += '<a href="javascript:void(0)" onclick="delReplyForm('
+														+ this.br_no
+														+ ')" >삭제</a>';
 
 													htmls += '</span>';
 
@@ -171,12 +172,7 @@ function showReplyList() {
 							}
 
 							$("#replyList").html(htmls);
-
-							/*
-							 * document.getElementById("replyList").innerHTML =
-							 * htmls;
-							 */
-
+			
 						}, // Ajax success end
 
 						error : function(request, status, error) {
@@ -184,9 +180,7 @@ function showReplyList() {
 							alert("code = " + request.status + " message = "
 									+ request.responseText + " error = "
 									+ error); // 실패 시 처리
-
 						}
-
 					});
 
 }// function showReplyList End;
@@ -269,6 +263,20 @@ function fn_editReply(br_no, br_id, br_content) {
 	$('#br_no' + br_no + ' #editContent').focus();
 
 }
+
+/*// 댓글 삭제폼
+function delReplyForm(br_no){
+	var htmls = "";
+	
+	htmls += '<div class="delReplyBox" id="'+br_no+'" >';
+	
+	htmls += '<input type="password" placeholder= "비밀번호" class="delReplyPwd" > ';
+
+	htmls += '<button type="button">확인</button> ';
+	
+	htmls += '</div>';
+	
+}*/
 
 // 댓글 수정
 function fn_updateReply(br_no, br_id) {

@@ -239,19 +239,9 @@
 			<div class="card-body">
 				<p class=" m-0"> 연락처 : 010 - 8254 - 0551 </p>
 				<p class=" m-0"> Email : casta10@naver.com</p>
-				<p class=" m-0"> GitHub : </p>
+				<p class=" m-0"> GitHub : https://github.com/Jongeume/Portfolio.git </p>
 			</div>
 		</div>
-		<!--     중간 라인
-    <div class="card text-white bg-secondary my-5 py-4 text-center" style="background: #c2e59c;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to bottom, #64b3f4, #c2e59c);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #64b3f4, #c2e59c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    ">
-      <div class="card-body">
-        <p class="text-white m-0">중간라인</p>
-      </div>
-    </div> 
-    -->
 
 
 	</div>

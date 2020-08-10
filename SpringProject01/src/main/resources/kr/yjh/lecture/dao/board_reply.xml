@@ -13,6 +13,7 @@
 
 </insert>
 
+
 <!-- 댓글리스트 -->
 <select id="replyList" resultType="board_replyVO">
 
@@ -26,11 +27,11 @@
 	
 </select>
 
-<!-- 삭제하기 -->
+<!-- 댓글 삭제하기 -->
 <delete id="delReply" >
 	delete from board_reply where br_no= #{br_no}
 </delete>
-<!-- 삭제하기 -->
+<!-- 글삭제 -> 댓글전체 삭제하기 -->
 <delete id="delContent" >
 	delete from board_reply where fb_no= #{fb_no}
 </delete>

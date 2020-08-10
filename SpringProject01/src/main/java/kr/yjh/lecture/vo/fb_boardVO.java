@@ -31,4 +31,5 @@ public class fb_boardVO {
 	private int fb_likeCnt;
 	private int fb_hateCnt;
 	private int fb_available;
+	private int reCnt;
 }

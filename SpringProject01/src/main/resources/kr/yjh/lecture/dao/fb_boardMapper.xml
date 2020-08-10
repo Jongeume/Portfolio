@@ -26,11 +26,11 @@
 			TO_CHAR(fb_date,'HH24:MI')
 		ELSE 
 			TO_CHAR(fb_date,'YY/MM/DD')
-		END fb_date
-	 
+		END fb_date,
+			reCnt 
 	from
 	(
-		select ROWNUM as RN, A.*
+		select ROWNUM as RN, A.* , (SELECT count(*) FROM BOARD_REPLY WHERE FB_NO = a.fb_no) AS reCnt
 		FROM 
 			(select * from free_board order by fb_no desc) A
 	)
@@ -78,13 +78,6 @@
 		where RN >= 0 and RN <= 5
 	]]>
 	</select>	
-	
-	
-	
-	
-	
-	
-	
 	
 	<!-- row  -->
 	<select id="getBoardListCnt" resultType="int">

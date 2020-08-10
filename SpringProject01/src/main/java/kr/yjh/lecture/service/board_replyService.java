@@ -32,4 +32,7 @@ public class board_replyService {
 	public int delContent(int fb_no) {
 		return dao.delContent(fb_no);
 	}
+	
+	
+	
 }
