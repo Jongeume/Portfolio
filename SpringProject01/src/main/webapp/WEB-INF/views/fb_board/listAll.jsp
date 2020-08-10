@@ -110,6 +110,7 @@ div.relative {
 				<c:choose>
 					<c:when test="${fn:length(listFb) > 0 }">
 
+
 						<c:forEach items="${listFb }" var="fb_boardVO">
 							<tr>
 								<td class="list_td">${fb_boardVO.fb_no }</td>
